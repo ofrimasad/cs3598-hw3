@@ -77,7 +77,9 @@ class ThreeLayerNet(object):
     # Store the result in the scores variable, which should be an array of      #
     # shape (N, C).                                                             #
     #############################################################################
-    pass
+    out1, cache1 = fc_relu_forward(X, W1, b1)
+    out2, cache2 = fc_relu_forward(out1, W2, b2)
+    scores, cache3 = fc_forward(out2, W3, b3)
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -97,7 +99,9 @@ class ThreeLayerNet(object):
     # end of the file. it takes the scores and labels and computes the loss and #
     # derivatives for you.                                                      #         
     #############################################################################
-    pass
+    loss, dx = softmax_loss(scores, y)
+    l2_regularization_cost = (np.sum(np.square(W1)) + np.sum(np.square(W2)) + np.sum(np.square(W3))) * (reg / (2 * X.shape[0]))
+    loss = loss + l2_regularization_cost
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -109,7 +113,9 @@ class ThreeLayerNet(object):
     # and biases. Store the results in the grads dictionary. For example,       #
     # grads['W1'] should store the gradient on W1, and be a matrix of same size #
     #############################################################################
-    pass
+    grads['X3'], grads['W3'], grads['b3'] = fc_backward(dx, cache3)
+    grads['X2'], grads['W2'], grads['b2'] = fc_relu_backward(grads['X3'], cache2)
+    grads['X1'], grads['W1'], grads['b1'] = fc_relu_backward(grads['X2'], cache1)
     #############################################################################
     #                              END OF YOUR CODE                             #
     #############################################################################
@@ -147,7 +153,9 @@ class ThreeLayerNet(object):
       # TODO: Create a random minibatch of training data and labels, storing  #
       # them in X_batch and y_batch respectively.                             #
       #########################################################################
-      pass
+      batch_indices = np.random.choice(y.size, batch_size, replace=True)
+      X_batch = X[batch_indices]
+      y_batch = y[batch_indices]
       #########################################################################
       #                             END OF YOUR CODE                          #
       #########################################################################
@@ -161,7 +169,8 @@ class ThreeLayerNet(object):
       # using stochastic gradient descent. You'll need to use the gradients   #
       # stored in the grads dictionary defined above.                         #
       #########################################################################
-      pass
+      for param_key in self.params.keys():
+        self.params[param_key] = self.params[param_key] - learning_rate * grads[param_key]
       #########################################################################
       #                             END OF YOUR CODE                          #
       #########################################################################
@@ -199,7 +208,15 @@ class ThreeLayerNet(object):
     ###########################################################################
     # TODO: Implement this function                                           #
     ###########################################################################
-    pass
+    W1, b1 = self.params['W1'], self.params['b1']
+    W2, b2 = self.params['W2'], self.params['b2']
+    W3, b3 = self.params['W3'], self.params['b3']
+
+    out1, cache1 = fc_relu_forward(X, W1, b1)
+    out2, cache2 = fc_relu_forward(out1, W2, b2)
+    scores, cache3 = fc_forward(out2, W3, b3)
+
+    y_pred = np.argmax(scores, axis=1)
     ###########################################################################
     #                              END OF YOUR CODE                           #
     ###########################################################################
