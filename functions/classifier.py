@@ -17,7 +17,6 @@ class LogisticRegression():
         each element is an integer giving the predicted class.        """
         y_pred = np.zeros(X.shape[0])
         ###########################################################################
-        # TODO:                                                                   #
         # Implement this method.                                                  #
         ###########################################################################
         y = X @ self.W
@@ -27,6 +26,7 @@ class LogisticRegression():
         y_pred = exp / norm
         # pick class with maximum probability
         y_pred = np.argmax(y_pred, axis=1)
+        # TODO - change to sum
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
