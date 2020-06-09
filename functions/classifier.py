@@ -20,7 +20,13 @@ class LogisticRegression():
         # TODO:                                                                   #
         # Implement this method.                                                  #
         ###########################################################################
-        pass
+        y = X @ self.W
+        # softmax:
+        exp = np.exp(y - np.max(y, axis=1).reshape((-1, 1)))
+        norm = np.sum(exp, axis=1).reshape((-1, 1))
+        y_pred = exp / norm
+        # pick class with maximum probability
+        y_pred = np.argmax(y_pred, axis=1)
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################
