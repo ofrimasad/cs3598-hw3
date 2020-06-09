@@ -21,7 +21,8 @@ def fc_forward(X, W, b):
 	# TODO: Implement the affine forward pass. Store the result in out. You     #
 	# will need to reshape the input into rows.                                 #
 	#############################################################################
-	pass
+	x_flatten = np.reshape(X, (X.shape[0], -1))
+	out = x_flatten.dot(W) + b
 	#############################################################################
 	#                             END OF YOUR CODE                              #
 	#############################################################################
@@ -50,7 +51,10 @@ def fc_backward(dout, cache):
 	###########################################################################
 	# TODO: Implement the affine backward pass.                               #
 	###########################################################################
-	pass
+	x_flatten = np.reshape(x, (x.shape[0], -1))
+	dw = np.dot(x_flatten.T, dout)
+	dx = np.dot(dout, w.T).reshape(x.shape)
+	db = np.sum(dout, axis=0, keepdims=True)
 	###########################################################################
 	#                             END OF YOUR CODE                            #
 	###########################################################################
