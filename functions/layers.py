@@ -75,12 +75,13 @@ def relu_forward(x):
 	#############################################################################
 	# TODO: Implement the ReLU forward pass.                                    #
 	#############################################################################
-	pass
+	out = np.maximum(0, x)
 	#############################################################################
 	#                             END OF YOUR CODE                              #
 	#############################################################################
 	cache = x
 	return out, cache
+
 
 def relu_backward(dout, cache):
 	"""
@@ -97,11 +98,12 @@ def relu_backward(dout, cache):
 	#############################################################################
 	# TODO: Implement the ReLU backward pass.                                   #
 	#############################################################################
-	pass
+	dx = dout * (x > 0)
 	#############################################################################
 	#                             END OF YOUR CODE                              #
 	#############################################################################
 	return dx
+
 
 def fc_relu_forward(X, W, b):
 	"""
@@ -118,7 +120,8 @@ def fc_relu_forward(X, W, b):
 	#############################################################################
 	# TODO: Implement the function.                                             #
 	#############################################################################
-	pass
+	out, fc_cache = fc_forward(X, W, b)
+	out, relu_cache = relu_forward(out)
 	#############################################################################
 	#                             END OF YOUR CODE                              #
 	#############################################################################
@@ -127,25 +130,28 @@ def fc_relu_forward(X, W, b):
 
 
 def fc_relu_backward(dout, cache):
-    """
-    Backward pass for a fully connected layer followed by a ReLU
-    Inputs:
-    - dout: upstream derivatives
-    - cache: parameters calculated during the forward pass
+	"""
+	Backward pass for a fully connected layer followed by a ReLU
+	Inputs:
+	- dout: upstream derivatives
+	- cache: parameters calculated during the forward pass
 
-    Returns:
-    - dX: derivative w.r.t X
-    - dW: derivative w.r.t W
-    - db: derivative w.r.t b
-    """
+	Returns:
+	- dX: derivative w.r.t X
+	- dW: derivative w.r.t W
+	- db: derivative w.r.t b
+	"""
 	#############################################################################
 	# TODO: Implement the function.                                             #
 	#############################################################################
-    pass
+	fc_cache, relu_cache = cache
+	dx, dw, db = relu_backward(dout, relu_cache)
+	dx, dw, db = fc_backward(dw, fc_cache)
 	#############################################################################
 	#                             END OF YOUR CODE                              #
 	#############################################################################
-    return dx, dw, db
+	return dx, dw, db
+
 
 def eval_numerical_gradient_array(f, x, df, h=1e-5):
 	"""
