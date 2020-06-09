@@ -145,8 +145,8 @@ def fc_relu_backward(dout, cache):
 	# TODO: Implement the function.                                             #
 	#############################################################################
 	fc_cache, relu_cache = cache
-	dx, dw, db = relu_backward(dout, relu_cache)
-	dx, dw, db = fc_backward(dw, fc_cache)
+	dx = relu_backward(dout, relu_cache)
+	dx, dw, db = fc_backward(dx, fc_cache)
 	#############################################################################
 	#                             END OF YOUR CODE                              #
 	#############################################################################
