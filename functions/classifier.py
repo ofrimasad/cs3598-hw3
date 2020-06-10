@@ -26,7 +26,6 @@ class LogisticRegression():
         y_pred = exp / norm
         # pick class with maximum probability
         y_pred = np.argmax(y_pred, axis=1)
-        # TODO - change to sum
         ###########################################################################
         #                           END OF YOUR CODE                              #
         ###########################################################################

@@ -15,22 +15,28 @@ def softmax_loss_vectorized(W, X, y, reg=0):
   # here, it is easy to run into numeric instability. Don't forget the        #
   # regularization!                                                           #
   #############################################################################
-  p = X @ W  # X.dot(W)
-  p -= np.matrix(np.max(p, axis=1)).T
+  N = X.shape[0]
+  C = W.shape[1]
 
-  term1 = -p[np.arange(X.shape[0]), y]
-  sum_j = np.sum(np.exp(p), axis=1)
+  f = X.dot(W)
+  f -= np.matrix(np.max(f, axis=1)).T
+
+  term1 = -f[np.arange(N), y]
+  sum_j = np.sum(np.exp(f), axis=1)
   term2 = np.log(sum_j)
   loss = term1 + term2
-  loss /= X.shape[0]
-  loss += 0.5 * reg * np.sum(W * W, axis=1)  # TODO - check
-  loss = loss.reshape(-1, 1)
+  loss /= N
+  loss += 0.5 * reg * np.sum(W * W)
+  loss = np.squeeze(loss)
 
-  coef = np.exp(p) / np.matrix(sum_j).T
-  coef[np.arange(X.shape[0]), y] -= 1
+  coef = np.exp(f) / np.matrix(sum_j).T
+  coef[np.arange(N), y] -= 1
+  coef = np.squeeze(coef)
+
   dW = X.T.dot(coef)
-  dW /= X.shape[0]
+  dW /= N
   dW += reg * W
+  dW = np.squeeze(dW)
   #############################################################################
   #                          END OF YOUR CODE                                 #
   #############################################################################
