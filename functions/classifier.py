@@ -67,7 +67,9 @@ class LogisticRegression():
             # Hint: Use np.random.choice to generate indices. Sampling with         #
             # replacement is faster than sampling without replacement.              #
             #########################################################################
-            pass
+            batch_indices = np.random.choice(y.size, batch_size, replace=True)
+            X_batch = X[batch_indices]
+            y_batch = y[batch_indices]
             #########################################################################
             #                       END OF YOUR CODE                                #
             #########################################################################
@@ -81,7 +83,7 @@ class LogisticRegression():
             # TODO:                                                                 #
             # Update the weights using the gradient and the learning rate.          #
             #########################################################################
-            pass
+            self.W -= grad * learning_rate
             #########################################################################
             #                       END OF YOUR CODE                                #
             #########################################################################
