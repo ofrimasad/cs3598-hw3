@@ -17,7 +17,7 @@ class FiveLayerNet(object):
   The outputs of the third fully-connected layer are the scores for each class.
   """
 
-  def __init__(self, input_size, hidden_size, output_size, std=1e-2):
+  def __init__(self, input_size, hidden_size, output_size, std=2e-2):
     """
     Initialize the model. Weights are initialized to small random values and
     biases are initialized to zero. Weights and biases are stored in the
